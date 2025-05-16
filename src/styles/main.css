@@ -39,7 +39,7 @@ body {
 }
 
 .container {
-  max-width: 980px;
+  max-width: 1470px;
   margin: 0 auto;
   padding: 0 var(--spacing);
 }
@@ -185,7 +185,7 @@ p {
 }
 
 .timeline-grid {
-  max-width: 700px;
+  max-width: 1050px;
   margin: 0 auto;
 }
 
