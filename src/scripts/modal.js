@@ -2,7 +2,7 @@
 let currentProject = null;
 let currentSlide = 0;
 
-export function openProjectModal(projectId) {
+function openProjectModal(projectId) {
   const modal = document.getElementById('project-modal');
   const project = window.projects.find(p => p.id === projectId);
   
@@ -27,16 +27,16 @@ export function openProjectModal(projectId) {
         `).join('')}
       </div>
       
-      <button class="gallery-arrow prev" data-action="prev">
+      <button class="gallery-arrow prev" onclick="prevSlide()">
         <i data-lucide="chevron-left"></i>
       </button>
-      <button class="gallery-arrow next" data-action="next">
+      <button class="gallery-arrow next" onclick="nextSlide()">
         <i data-lucide="chevron-right"></i>
       </button>
       
       <div class="gallery-nav">
         ${(project.images || []).map((_, index) => `
-          <div class="gallery-dot ${index === 0 ? 'active' : ''}" data-slide="${index}"></div>
+          <div class="gallery-dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>
         `).join('')}
       </div>
     </div>
@@ -91,7 +91,7 @@ export function openProjectModal(projectId) {
   lucide.createIcons();
 }
 
-export function closeProjectModal() {
+function closeProjectModal() {
   const modal = document.getElementById('project-modal');
   modal.classList.remove('active');
   document.body.style.overflow = '';
@@ -111,27 +111,51 @@ function updateSlides() {
   });
 }
 
-export function nextSlide() {
+function nextSlide() {
   if (!currentProject) return;
   currentSlide = (currentSlide + 1) % currentProject.images.length;
   updateSlides();
 }
 
-export function prevSlide() {
+function prevSlide() {
   if (!currentProject) return;
   currentSlide = (currentSlide - 1 + currentProject.images.length) % currentProject.images.length;
   updateSlides();
 }
 
-export function goToSlide(index) {
+function goToSlide(index) {
   if (!currentProject) return;
   currentSlide = index;
   updateSlides();
 }
 
+// Close modal when clicking outside
+window.addEventListener('click', (e) => {
+  const modal = document.getElementById('project-modal');
+  if (e.target === modal) {
+    closeProjectModal();
+  }
+});
+
+// Close modal with Escape key
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeProjectModal();
+  }
+});
+
 // Add touch swipe support
 let touchStartX = 0;
 let touchEndX = 0;
+
+document.addEventListener('touchstart', e => {
+  touchStartX = e.changedTouches[0].screenX;
+});
+
+document.addEventListener('touchend', e => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+});
 
 function handleSwipe() {
   const swipeThreshold = 50;
@@ -143,49 +167,5 @@ function handleSwipe() {
     prevSlide();
   } else {
     nextSlide();
-  }
-}
-
-export function initializeModal() {
-  // Close modal when clicking outside
-  const modal = document.getElementById('project-modal');
-  
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      closeProjectModal();
-    }
-  });
-
-  // Close modal with Escape key
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeProjectModal();
-    }
-  });
-
-  // Touch events for swipe
-  document.addEventListener('touchstart', e => {
-    touchStartX = e.changedTouches[0].screenX;
-  });
-
-  document.addEventListener('touchend', e => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  });
-
-  // Modal navigation
-  modal.addEventListener('click', (e) => {
-    const target = e.target.closest('[data-action], [data-slide]');
-    if (!target) return;
-
-    if (target.dataset.action === 'prev') prevSlide();
-    if (target.dataset.action === 'next') nextSlide();
-    if (target.dataset.slide) goToSlide(parseInt(target.dataset.slide));
-  });
-
-  // Close button
-  const closeButton = modal.querySelector('.modal-close');
-  if (closeButton) {
-    closeButton.addEventListener('click', closeProjectModal);
   }
 }
