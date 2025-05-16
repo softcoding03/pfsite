@@ -2,7 +2,8 @@
 let currentProject = null;
 let currentSlide = 0;
 
-function openProjectModal(projectId) {
+// Make openProjectModal available globally
+window.openProjectModal = function(projectId) {
   const modal = document.getElementById('project-modal');
   const project = window.projects.find(p => p.id === projectId);
   
@@ -91,14 +92,16 @@ function openProjectModal(projectId) {
   lucide.createIcons();
 }
 
-function closeProjectModal() {
+// Make closeProjectModal available globally
+window.closeProjectModal = function() {
   const modal = document.getElementById('project-modal');
   modal.classList.remove('active');
   document.body.style.overflow = '';
   currentProject = null;
 }
 
-function updateSlides() {
+// Make slide navigation functions available globally
+window.updateSlides = function() {
   const slides = document.querySelectorAll('.gallery-slide');
   const dots = document.querySelectorAll('.gallery-dot');
   
@@ -111,19 +114,19 @@ function updateSlides() {
   });
 }
 
-function nextSlide() {
+window.nextSlide = function() {
   if (!currentProject) return;
   currentSlide = (currentSlide + 1) % currentProject.images.length;
   updateSlides();
 }
 
-function prevSlide() {
+window.prevSlide = function() {
   if (!currentProject) return;
   currentSlide = (currentSlide - 1 + currentProject.images.length) % currentProject.images.length;
   updateSlides();
 }
 
-function goToSlide(index) {
+window.goToSlide = function(index) {
   if (!currentProject) return;
   currentSlide = index;
   updateSlides();
