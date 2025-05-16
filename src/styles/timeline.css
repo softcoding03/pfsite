@@ -1,0 +1,95 @@
+/* Timeline styles */
+.timeline-container {
+  position: fixed;
+  bottom: var(--timeline-bottom);
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.timeline {
+  width: 1000px;
+  height: 40px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.timeline-line {
+  position: absolute;
+  width: 100%;
+  height: var(--timeline-height);
+  background-color: var(--primary);
+  opacity: 0.7;
+}
+
+.timeline-marker {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.timeline-marker::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--primary);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.timeline-marker:hover {
+  transform: translateY(-50%) scale(1.2);
+}
+
+.timeline-marker:hover::before {
+  opacity: 0.5;
+}
+
+.timeline-marker.active {
+  background-color: var(--secondary);
+  transform: translateY(-50%) scale(1.2);
+}
+
+.timeline-marker.active::before {
+  opacity: 0.7;
+  border-color: var(--secondary);
+}
+
+.timeline-marker-label {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--panel-bg);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.timeline-marker:hover .timeline-marker-label {
+  opacity: 1;
+}
+
+@media (max-width: 1100px) {
+  .timeline {
+    width: 90%;
+  }
+}

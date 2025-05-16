@@ -1,0 +1,95 @@
+/* Panel styles */
+#milestone-panels {
+  position: relative;
+  min-height: 300px;
+}
+
+.milestone-panel {
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  background-color: var(--panel-bg);
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  padding: calc(var(--spacing) * 2);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+  left: 50%;
+  margin-left: -150px;
+  overflow: hidden;
+  contain: content;
+}
+
+.milestone-panel.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.milestone-panel h3 {
+  color: var(--primary);
+  margin-bottom: var(--spacing);
+  font-size: 1.2rem;
+}
+
+.milestone-panel .date {
+  color: var(--text-dark);
+  font-size: 0.8rem;
+  margin-bottom: var(--spacing);
+}
+
+.milestone-panel .description {
+  margin-bottom: var(--spacing);
+  font-size: 0.9rem;
+}
+
+.milestone-panel .tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: var(--spacing);
+}
+
+.milestone-panel .tech {
+  background-color: rgba(156, 39, 176, 0.2);
+  color: var(--secondary);
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-size: 0.7rem;
+}
+
+.milestone-panel .achievements {
+  margin-top: var(--spacing);
+}
+
+.milestone-panel .achievement {
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+  position: relative;
+  padding-left: 16px;
+}
+
+.milestone-panel .achievement::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+}
+
+.milestone-panel .icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .milestone-panel {
+    width: 85%;
+    margin-left: 0;
+    left: 7.5%;
+  }
+}

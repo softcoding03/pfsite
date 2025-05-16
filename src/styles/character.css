@@ -1,0 +1,41 @@
+/* Character styles */
+#character {
+  position: absolute;
+  width: var(--character-size);
+  height: var(--character-size);
+  background-image: url('../assets/character-sprite.png');
+  background-size: 200% 100%;
+  background-position: 0 0;
+  transform: translateY(-100%);
+  z-index: 20;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.5));
+}
+
+/* Create the character sprite as a CSS background for now */
+/* We'll replace this with a proper sprite sheet later */
+@keyframes characterWalk {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: -16px 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+#character.walking {
+  animation: characterWalk 0.5s steps(2) infinite;
+}
+
+/* Fallback character style if image fails to load */
+#character::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--primary);
+  opacity: 0;
+}
